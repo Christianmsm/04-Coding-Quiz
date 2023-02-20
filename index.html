@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald&display=swap" rel="stylesheet">
+    <title>Coding Quiz</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+
+
+
+  <body>
+    <header>
+     
+        <button id="high-scores" style="display:flex">High Scores</button>
+        <button id="back-btn" style="display:none">Back</button>
+        <button id="play-again-btn" style="display:none">Play again</button>
+    </header>
+
+    <div class="container" id="start-screen">
+        <h1>THE CODING QUIZ</h1>
+        <p class="desc">Think you can get the highscore? Answer these questions as fast of you can before time runs out!</p>
+        <button id="start-btn">Launch</button>
+    </div>
+
+
+
+    <section>
+    <div class="container" id="quiz-section" style="display:none">
+        <p class="count-down"><span id="time-remaining"></span></p>
+        <h2 id="question">Question</h2>
+        <ul id="answers">
+            <button class="btn next-btn">Answer 1</button>
+            <button class="btn next-btn">Answer 2</button>
+            <button class="btn next-btn">Answer 3</button>
+            <button class="btn next-btn">Answer 4</button>
+        </ul>
+        <audio>
+            <source src="assets/audio/131660__bertrof__game-sound-correct.wav" id="right-answer" type="audio/wav">
+            <source src="assets/audio/554053__gronkjaer__wronganswer.mp3" id="wrong-answer" type="audio/mpeg">
+        </audio>
+        <div id="result">
+            <hr/>
+            <h3 id="result-text">
+                Result
+            </h3>
+        </div>
+    </div>
+    </section>
+
+
+
+    <section>
+    <div class="container" id="save-highscore" style="display:none">
+        <h1>GAME OVER</h1>
+        <div class="initials-field">
+            <p class="desc">Enter your initials:</p>
+            <input type="text" id="initials-input" maxlength="3">
+            <button class="btn" id="save-score-btn">Submit</button>
+        </div>
+    </div>
+    <div class="container" id="highscores-screen" style="display:none">
+        <div class="highscores-title">
+            <h2>HIGH SCORES</h2>
+        </div>
+    </div>
+    </section>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
