@@ -20,15 +20,15 @@ Attached are links for this challenge.
 
 
 GitHub:
-
+https://github.com/Christianmsm/04-Coding-Quiz
 
 
 Deployed Site:
-
+https://christianmsm.github.io/04-Coding-Quiz/
 
 
 Screenshot:
-
+<img src="assets/Screenshot-04-Coding-Quiz_.png">
 
 
 
