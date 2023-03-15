@@ -59,6 +59,7 @@
     <section>
     <div class="container" id="save-highscore" style="display:none">
         <h1>GAME OVER</h1>
+        <p class="desc">YOUR FINAL SCORE IS: <span id="scores">.</span></p>
         <div class="initials-field">
             <p class="desc">Enter your initials:</p>
             <input type="text" id="initials-input" maxlength="3">
@@ -66,9 +67,10 @@
         </div>
     </div>
     <div class="container" id="highscores-screen" style="display:none">
-        <div class="highscores-title">
+        <div class="highscore-title">
             <h2>HIGH SCORES</h2>
         </div>
+        <ol id="highscores-list"></ol>
     </div>
     </section>
     <script src="assets/js/script.js"></script>
