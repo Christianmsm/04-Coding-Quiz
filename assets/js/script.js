@@ -1,3 +1,4 @@
+// contains all of the questions with the correct & incorrect answers
 let questions = [
     {
         question: 'Commonly used data types DO NOT include:',
@@ -70,6 +71,10 @@ let viewScoresButton = document.getElementById('high-scores');
 let backButton = document.getElementById('back-btn');
 let playAgainButton = document.getElementById('play-again-btn');
 let submitScoreButton = document.getElementById('save-score-btn');
+let inputEl = document.getElementById('initials-input');
+let recentScoreEl = document.getElementById('scores');
+let highscoreListEl = document.getElementById('highscores-list');
+
 let rightAnswerAudio = document.getElementById('right-answer');
 let wrongAnswerAudio = document.getElementById('wrong-answer');
 
@@ -77,6 +82,7 @@ let wrongAnswerAudio = document.getElementById('wrong-answer');
 let shuffledQuestions, currentQuestionIndex;
 let timeRemaining = 60;
 let timeIntervalId;
+let allHighscores = [];
 
 
 startButton.addEventListener('click', startGame);
@@ -85,11 +91,15 @@ answerEl.addEventListener('click', () => {
     setNextQuestion();
 });
 
-viewScoresButton.addEventListener('click', viewScores);
+viewScoresButton.addEventListener('click', function () {
+    viewScores();
+    displayHighscores();
+});
 backButton.addEventListener('click', goBack);
 submitScoreButton.addEventListener('click', submitScore);
 playAgainButton.addEventListener('click', playAgain);
 
+// starts the game
 function startGame() {
     startScreenEl.style.display = 'none';
     viewScoresButton.style.visibility = 'hidden';
@@ -111,12 +121,18 @@ function startTimer() {
     }, 1000);
 }
 
+ 
+// shuffles up the questions
 function setNextQuestion() {
     clearQuestion();
-    showQuestion(shuffledQuestions[currentQuestionIndex]);
+    if (currentQuestionIndex >= shuffledQuestions.length) {
+        endGame();
+    } else {
+        showQuestion(shuffledQuestions[currentQuestionIndex]);
+    }
 };
 
-// displays the question on the screen and confirms the answers are correct
+
 function showQuestion(question) {
     questionEl.innerText = question.question;
     question.answers.forEach(answer => {
@@ -131,15 +147,16 @@ function showQuestion(question) {
     })
 };
 
+
 function clearQuestion() {
     while (answerEl.firstChild) {
         answerEl.removeChild(answerEl.firstChild);
     }
 };
 
-// confirms if  the answer is correct
-function selectAnswer(j) {
-    let selectedButton = j.target
+
+function selectAnswer(e) {
+    let selectedButton = e.target
     let correct = selectedButton.dataset.correct
     checkAnswer(document.body, correct);
 };
@@ -148,21 +165,24 @@ function checkAnswer(button, correct) {
     if (correct) {
         resultText.textContent = ('Correct!');
         resultEl.style.visibility = "visible";
-        rightAnswerAudio.addEventListener('click');
-        audio.src = src;
-        rightAnswerAudio.audio.play();
     } else {
         resultText.textContent = ('Wrong!');
         resultEl.style.visibility = "visible";
-        wrongAnswerAudio;
-        //if the answer is not correct subtracts 10 seconds from the timer and updates it's display
         timeRemaining -= 10;
+
+        if (timeRemaining < 0) {
+            timeRemaining = 0;
+        }
         timeRemainingEl.textContent = timeRemaining;
     }
 };
 
 function endGame() {
+    let score = timeRemaining;
+    recentScoreEl.textContent = score;
     clearInterval(timeIntervalId);
+    timeRemaining = 75;
+    timeRemainingEl.textContent = timeRemaining;
     quizSectionEl.style.display = "none";
     saveScoreEl.style.display = "flex";
 }
@@ -190,9 +210,36 @@ function playAgain() {
     viewScoresButton.style.visibility = 'visible';
 }
 
+
+
 function submitScore() {
     saveScoreEl.style.display = "none";
     highScoreEl.style.display = "flex";
     playAgainButton.style.display = "flex";
     viewScoresButton.style.display ="none";
+    let initials = inputEl.value.trim();
+    let score = parseInt(recentScoreEl.textContent);
+    if (initials && score) {
+        allHighscores.push({ initials: initials, score: score });
+        localStorage.setItem('highscores', JSON.stringify(allHighscores));
+    }
+    displayHighscores();
+}
+
+
+// displays the highscores
+function displayHighscores() {
+    allHighscores.sort(function(a, b) {
+        return b.score - a.score;
+    });
+  
+
+    allHighscores = allHighscores.slice(0, 5);
+    highscoreListEl.innerHTML = "";
+    allHighscores.forEach(function(highscore) {
+        let highscoreItem = document.createElement('li');
+        highscoreItem.textContent = highscore.initials + ' - ' + highscore.score;
+        highscoreListEl.appendChild(document.createElement('hr'));
+        highscoreListEl.appendChild(highscoreItem);
+    });
 }
